@@ -21,11 +21,22 @@
 
     <!-- <router-view class="aaa"></router-view> -->
     <div class="leftNav">
-      <div class="leftNavBox" v-for="(item, index) in leftNav" :key="index">
+      <div
+        class="leftNavBox"
+        style="height:42px"
+        @click.stop="sfq(index,$event)"
+        @mouseover="sfqON(index)"
+        @mouseout="sfqOFF(index)"
+        v-for="(item, index) in leftNav"
+        :key="index"
+        :ref="`list${index}`"
+        :data-innerText="item[0]"
+        data-type="off"
+      >
         <h3>{{item[0]}}</h3>
 
         <div class="leftNavBoxList" v-for="(item, index) in item[1]" :key="index">
-          <span>{{item}}</span>
+          <span @click="test(item)">{{item}}</span>
         </div>
       </div>
     </div>
@@ -321,26 +332,51 @@ export default {
         ]
       ],
       topNavType: "HTML",
-      leftNavType: "基础"
+      leftNavType: "基础",
+      leftNavItem:""
     };
   },
 
   //  接受数据
-  props: {
-    // parentData: {
-    //   type: Object,
-    //   default: () => {}
-    // }
-  },
+  props: {},
 
   //  函数主体
   methods: {
-    // a() {
-    //   window.console.log(localStorage);
-    // }
     change(topNavType) {
-      // window.console.log(index)
       this.topNavType = topNavType;
+    },
+
+    sfq(index, event) {
+      this.leftNavType = this.$refs[`list${index}`][0].dataset.innertext
+      if (
+        event.target.innerText ===
+        this.$refs[`list${index}`][0].dataset.innertext
+      ) {
+        if (this.$refs[`list${index}`][0].dataset.type == "off") {
+          this.$refs[`list${index}`][0].style.cssText = "height: auto;";
+          this.$refs[`list${index}`][0].dataset.type = "on";
+        } else {
+          this.$refs[`list${index}`][0].style.cssText = "height: 42px;";
+          this.$refs[`list${index}`][0].dataset.type = "off";
+        }
+      } else {
+        this.$refs[`list${index}`][0].style.cssText = "height: auto;";
+        this.$refs[`list${index}`][0].dataset.type = "on";
+      }
+      window.console.log(this.topNavType,this.leftNavType,this.leftNavItem)
+    },
+
+    sfqON(index) {
+      this.$refs[`list${index}`][0].style.cssText = "height: auto;";
+    },
+
+    sfqOFF(index) {
+      if (this.$refs[`list${index}`][0].dataset.type == "off") {
+        this.$refs[`list${index}`][0].style.cssText = "height: 42px;";
+      }
+    },
+    test(a){
+      this.leftNavItem = a
     }
   },
 
@@ -419,12 +455,14 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     // background-color: #aaa;
-    border-right: 1px solid #F1F1F1;
+    border-right: 1px solid #f1f1f1;
     .leftNavBox {
       margin-right: 40px;
       margin-left: 20px;
       overflow: hidden;
-      height: 42px;
+      // height: auto;
+      // border: 1px solid #000;
+
       h3 {
         margin: 8px 0px;
         cursor: pointer;
@@ -444,9 +482,29 @@ export default {
         }
       }
     }
-    & > .leftNavBox:hover {
-      height: auto;
-    }
+    // & > .leftNavBox:hover {
+    //   height: auto;
+    // }
+  }
+}
+.shqON {
+  animation: sfqON 0.2s linear 1;
+}
+@keyframes sfqON {
+  0% {
+    height: 42px;
+  }
+  100% {
+    height: auto;
+  }
+}
+
+@keyframes sfqOFF {
+  0% {
+    height: auto;
+  }
+  100% {
+    height: 42px;
   }
 }
 </style>
