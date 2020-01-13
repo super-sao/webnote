@@ -36,7 +36,7 @@
         <h3>{{item[0]}}</h3>
 
         <div class="leftNavBoxList" v-for="(item, index) in item[1]" :key="index">
-          <span @click="test(item)">{{item}}</span>
+          <span @click="test(item)" :class="[leftNavItemType==item?'leftNavType':'']">{{item}}</span>
         </div>
       </div>
     </div>
@@ -329,11 +329,39 @@ export default {
             "<hr>",
             "<!--...-->"
           ]
+        ],
+        [
+          "元信息",
+          [
+            "<!DOCTYPE> ",
+            "<html>",
+            "<title>",
+            "<body>",
+            "<h1> to <h6>",
+            "<p>",
+            "<br>",
+            "<hr>",
+            "<!--...-->"
+          ]
+        ],
+        [
+          "元信息",
+          [
+            "<!DOCTYPE> ",
+            "<html>",
+            "<title>",
+            "<body>",
+            "<h1> to <h6>",
+            "<p>",
+            "<br>",
+            "<hr>",
+            "<!--...-->"
+          ]
         ]
       ],
       topNavType: "HTML",
       leftNavType: "基础",
-      leftNavItem:""
+      leftNavItemType: ""
     };
   },
 
@@ -347,7 +375,7 @@ export default {
     },
 
     sfq(index, event) {
-      this.leftNavType = this.$refs[`list${index}`][0].dataset.innertext
+      this.leftNavType = this.$refs[`list${index}`][0].dataset.innertext;
       if (
         event.target.innerText ===
         this.$refs[`list${index}`][0].dataset.innertext
@@ -363,7 +391,6 @@ export default {
         this.$refs[`list${index}`][0].style.cssText = "height: auto;";
         this.$refs[`list${index}`][0].dataset.type = "on";
       }
-      window.console.log(this.topNavType,this.leftNavType,this.leftNavItem)
     },
 
     sfqON(index) {
@@ -375,8 +402,9 @@ export default {
         this.$refs[`list${index}`][0].style.cssText = "height: 42px;";
       }
     },
-    test(a){
-      this.leftNavItem = a
+    test(a) {
+      this.leftNavItemType = a;
+      window.console.log(this.topNavType, this.leftNavType, this.leftNavItemType);
     }
   },
 
@@ -480,11 +508,11 @@ export default {
           display: inline-block;
           border-bottom: 2px solid @borderColor;
         }
+        .leftNavType {
+          border-bottom: 2px solid @borderColor;
+        }
       }
     }
-    // & > .leftNavBox:hover {
-    //   height: auto;
-    // }
   }
 }
 .shqON {
