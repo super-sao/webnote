@@ -1,11 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" class="w100 h100">
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/content">About</router-link>
     </div>
     <router-view/>-->
-    <Content></Content>
+    <!-- <Content></Content> -->
+    <router-view />
   </div>
 </template>
 <script>
@@ -37,6 +38,7 @@ export default {
 
   //  注册组件
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     Content
   },
 
@@ -71,5 +73,11 @@ export default {
   list-style: none;
   color: #000;
   text-decoration: none;
+}
+.w100{
+  width: 100%;
+}
+.h100{
+  height: 100%;
 }
 </style>

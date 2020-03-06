@@ -20,35 +20,26 @@
     </header>
 
     <!-- <router-view class="aaa"></router-view> -->
-    <div class="leftNav">
-      <div
-        class="leftNavBox"
-        style="height:42px"
-        @click.stop="sfq(index,$event)"
-        @mouseover="sfqON(index)"
-        @mouseout="sfqOFF(index)"
-        v-for="(item, index) in leftNav"
-        :key="index"
-        :ref="`list${index}`"
-        :data-innerText="item[0]"
-        data-type="off"
-      >
-        <h3>{{item[0]}}</h3>
+    <leftNav />
 
-        <div class="leftNavBoxList" v-for="(item, index) in item[1]" :key="index">
-          <span @click="test(item)" :class="[leftNavItemType==item?'leftNavType':'']">{{item}}</span>
-        </div>
-      </div>
+    <div class="rightContent">
+      <!-- <div id="main">
+        <mavon-editor v-model="value" @change="xx" />
+      </div> -->
+      <div class="markdown-body markdown-box" v-html="value">{{value}}</div>
     </div>
-    <div class="rightContent"></div>
   </div>
 </template> 
 
 <script>
 //  引进组件
-// import Content from "./views/Content";
+import leftNav from "@/components/leftNav.vue";
+import "../css/github-markdown.min.css";
 
 export default {
+  components: {
+    leftNav
+  },
   //  数据
   data() {
     return {
@@ -361,50 +352,37 @@ export default {
       ],
       topNavType: "HTML",
       leftNavType: "基础",
-      leftNavItemType: ""
+      leftNavItemType: "",
+      value: `<p>所谓路由，可以理解成映射，就是两种食物之间的对应关系。至于express的路由呢，就是指URL和后端处理代码的对应关系，其作用就是将请求分发到对应的处理函数中。</p>
+<h4><a id="1__2"></a>1. 应用级路由</h4>
+<pre><div class="hljs"><code class="lang-js"><span class="hljs-comment">// 导入express模块</span>
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-comment">// 基于express创建服务器</span>
+<span class="hljs-keyword">const</span> app = express();`,
+      // markdownOption: {
+
+      //   subfield: true, // 单双栏模式
+      //   preview: true // 预览
+      // }
+      // markdownOption: {
+      //   subfield: false,
+
+      // },
+      editableType: false
     };
   },
 
   //  接受数据
-  props: {},
+  props: {
+    // subfield: false
+  },
 
   //  函数主体
   methods: {
-    change(topNavType) {
-      this.topNavType = topNavType;
-    },
-
-    sfq(index, event) {
-      this.leftNavType = this.$refs[`list${index}`][0].dataset.innertext;
-      if (
-        event.target.innerText ===
-        this.$refs[`list${index}`][0].dataset.innertext
-      ) {
-        if (this.$refs[`list${index}`][0].dataset.type == "off") {
-          this.$refs[`list${index}`][0].style.cssText = "height: auto;";
-          this.$refs[`list${index}`][0].dataset.type = "on";
-        } else {
-          this.$refs[`list${index}`][0].style.cssText = "height: 42px;";
-          this.$refs[`list${index}`][0].dataset.type = "off";
-        }
-      } else {
-        this.$refs[`list${index}`][0].style.cssText = "height: auto;";
-        this.$refs[`list${index}`][0].dataset.type = "on";
-      }
-    },
-
-    sfqON(index) {
-      this.$refs[`list${index}`][0].style.cssText = "height: auto;";
-    },
-
-    sfqOFF(index) {
-      if (this.$refs[`list${index}`][0].dataset.type == "off") {
-        this.$refs[`list${index}`][0].style.cssText = "height: 42px;";
-      }
-    },
-    test(a) {
-      this.leftNavItemType = a;
-      window.console.log(this.topNavType, this.leftNavType, this.leftNavItemType);
+    xx(a, b) {
+      // eslint-disable-next-line no-console
+      console.log(b);
+      this.value = b;
     }
   },
 
@@ -417,11 +395,6 @@ export default {
       window.console.log(to);
       window.console.log(from);
     }
-  },
-
-  //  注册组件
-  components: {
-    // Content
   },
 
   //  自定义指令
@@ -473,47 +446,6 @@ export default {
       }
     }
   }
-
-  .leftNav {
-    position: absolute;
-    width: 200px;
-    top: 60px;
-    left: 0px;
-    bottom: 0px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    // background-color: #aaa;
-    border-right: 1px solid #f1f1f1;
-    .leftNavBox {
-      margin-right: 40px;
-      margin-left: 20px;
-      overflow: hidden;
-      // height: auto;
-      // border: 1px solid #000;
-
-      h3 {
-        margin: 8px 0px;
-        cursor: pointer;
-      }
-      .leftNavBoxList {
-        // padding: 2px;
-        cursor: pointer;
-        span {
-          display: inline-block;
-          padding: 4px 0px 2px 0px;
-          margin-bottom: 2px;
-          border-bottom: 2px solid transparent;
-        }
-        &:hover span {
-          display: inline-block;
-          border-bottom: 2px solid @borderColor;
-        }
-        .leftNavType {
-          border-bottom: 2px solid @borderColor;
-        }
-      }
-    }
-  }
 }
 .shqON {
   animation: sfqON 0.2s linear 1;
@@ -534,5 +466,17 @@ export default {
   100% {
     height: 42px;
   }
+}
+.rightContent {
+  // width: calc(100% - 200px);
+  position: absolute;
+  right: 0;
+  top: 60px;
+  bottom: 0px;
+  left: 200px;
+  // overflow: auto;
+}
+.markdown-box{
+  padding:20px 50px;
 }
 </style>

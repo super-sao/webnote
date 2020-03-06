@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+   <button class="homeBtn" @click="$router.push('/content')">Markdown</button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'home',
-  components: {
-    HelloWorld
-  }
 }
 </script>
+<style lang="less" scoped>
+.home{
+  width:100%;
+  height: 100%;
+  text-align: center;
+}
+.homeBtn{
+  width:400px;
+  height: 80px;
+  background: #0a6a0a;
+  border-radius: 8px;
+  margin: 300px auto;
+  border: none;
+  color:white;
+  font-size:20px;
+  
+}
+</style>
